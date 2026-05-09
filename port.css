@@ -87,6 +87,7 @@ header {
   overflow: hidden;
   background-size: cover;
   padding: 35px;
+  height: 500px;
 }
 
 .decoration {
