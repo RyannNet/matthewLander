@@ -1,27 +1,138 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matheus - Portfólio</title>
-  <link rel="stylesheet" href="port.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bentham&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Italiana&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="port.css">
+  
+  <style>
+    .form-pedido {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+    }
+    .form-pedido.active {
+      display: flex;
+    }
+    .form-container {
+      background: #1e1e1e;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 1px solid #333;
+    }
+    .form-container h3 {
+      color: #ff6b6b;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #ccc;
+    }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 10px;
+      color: white;
+      font-family: inherit;
+      resize: vertical;
+    }
+    .form-group textarea {
+      min-height: 100px;
+    }
+    .valores-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .valor-btn {
+      background: #2a2a2a;
+      border: 1px solid #444;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.2s;
+    }
+    .valor-btn.selected {
+      background: #ff6b6b;
+      border-color: #ff6b6b;
+      color: #000;
+    }
+    .tempo-entrega {
+      background: #0a0a0a;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #ff6b6b;
+    }
+    .btn-enviar {
+      background: #ff6b6b;
+      border: none;
+      padding: 14px;
+      border-radius: 40px;
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-fechar {
+      background: #444;
+      border: none;
+      padding: 10px;
+      border-radius: 40px;
+      width: 100%;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .toast-mensagem {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #1e1e1e;
+      border-left: 4px solid #4caf50;
+      padding: 12px 20px;
+      border-radius: 10px;
+      z-index: 10001;
+      animation: fadeOut 3s forwards;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 0; transform: translateX(50px); }
+      15% { opacity: 1; transform: translateX(0); }
+      85% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+  </style>
 </head>
 <body>
 
 <header>
-  <h3 class="name">Matheus N,</h3>
-  <div class="header-flex">
-    <div class="icons-flex">
-      <a href="#"><span class="material-symbols-rounded icons">home</span></a>
-      <a href="#"><span class="material-symbols-rounded icons">mail_asterisk</span></a>
-      <a href="#"><span class="material-symbols-rounded icons">favorite</span></a>
-      <a href="#"><span class="material-symbols-rounded icons">settings</span></a>
-    </div>
-  </div>
+  <h3 class="name">Matheus N, </h3>
 </header>
 
 <div class="hero">
@@ -30,20 +141,11 @@
   <p class="descr">
     Olá, Me chamo Matheus. Sou um Designer, Web Developer, e produtor musical. Gosto do que a tecnologia pode nos oferecer se soubermos como aproveitar
   </p>
-  <div class="flex-btn">
-    <button class="btn-pedir" id="contactBtn"><span class="material-symbols-rounded">arrow_outward</span> Entrar em contato</button>
-    <button class="btn-pedir b" id="donateBtn"><span class="material-symbols-rounded">attach_money</span> Doar</button>
-  </div>
-  <div class="visitor-counter">
-    <span class="material-symbols-rounded">visibility</span>
-    <span id="visitorCount">0</span> visitas
-  </div>
 </div>
 
 <div class="hero2">
   <h1 class="title">Projetos</h1>
   <p class="descr2">Os projetos em que já participei/faço parte</p>
-
   <div class="flex-proj">
     <div class="project">
       <div class="gm"></div>
@@ -55,7 +157,6 @@
         </a>
       </div>
     </div>
-
     <div class="project">
       <div class="gm k"></div>
       <div class="info">
@@ -64,7 +165,6 @@
         <button class="enter c"><span class="material-symbols-rounded">arrow_outward</span></button>
       </div>
     </div>
-
     <div class="project">
       <div class="gm l"></div>
       <div class="info">
@@ -73,7 +173,6 @@
         <button class="enter c"><span class="material-symbols-rounded">arrow_outward</span></button>
       </div>
     </div>
-
     <div class="project">
       <div class="gm thx"></div>
       <div class="info">
@@ -84,16 +183,14 @@
         </a>
       </div>
     </div>
-
     <div class="project">
       <div class="gm s"></div>
       <div class="info">
         <h4 class="nameproject">Solo Byte</h4>
-        <p class="history">Nem sei q qeu fiz aq</p>
+        <p class="history">Nem sei q qeu fiz aq </p>
         <button class="enter c"><span class="material-symbols-rounded">arrow_outward</span></button>
       </div>
     </div>
-
     <div class="project">
       <div class="gm cn"></div>
       <div class="info">
@@ -102,15 +199,13 @@
         <button class="enter c"><span class="material-symbols-rounded">arrow_outward</span></button>
       </div>
     </div>
-
     <div class="project">
       <div class="gm pp"></div>
       <div class="info">
         <h4 class="nameproject">ProtectPass</h4>
         <p class="history">Projeto voltado para gerenciamento de senhas.</p>
         <a class="link" href="https://protectpass.vercel.app">
-          <button class="enter bugs"><span class="material-symbols-rounded">bug_report</span></button>
-        </a>
+        <button class="enter bugs"><span class="material-symbols-rounded">bug_report</span></button></a>
       </div>
     </div>
   </div>
@@ -133,65 +228,49 @@
 </div>
 
 <div class="creditos">
-  <h1 class="title t1">Agradecimentos</h1>
+  <h1 class="title t1">Agradecimentos <span class="material-symbols-rounded heart">favorite</span></h1>
   <div class="blockcopy">
     <div class="linha"></div>
     <div class="linha">
-      <h1 class="t">MICHELE</h1>
-      <h1 class="t o">MICHELE</h1>
-      <h1 class="t">MICHELE</h1>
-      <h1 class="t o">MICHELE</h1>
-      <h1 class="t">MICHELE</h1>
-      <h1 class="t o">MICHELE</h1>
+      <h1 class="t" data-emoji="👑">MICHELE</h1>
+      <h1 class="t o" data-emoji="♥️">MICHELE</h1>
+      <h1 class="t" data-emoji="+1 Ano de contrato">MICHELE</h1>
+      <h1 class="t o" data-emoji="🫪">MICHELE</h1>
+      <h1 class="t" data-emoji="-1 Anos até engravidar (parabéns, qual Será o nome)">MICHELE</h1>
+      <h1 class="t o" data-emoji="✨">MICHELE</h1>
     </div>
     <div class="linha reverse">
-      <h1 class="t">NICKGAMER</h1>
-      <h1 class="t o">NICKGAMER</h1>
-      <h1 class="t">NICKGAMER</h1>
-      <h1 class="t o">NICKGAMER</h1>
-      <h1 class="t">NICKGAMER</h1>
-      <h1 class="t o">NICKGAMER</h1>
+      <h1 class="t" data-emoji="🧑‍💻">NICKGAMER</h1>
+      <h1 class="t o" data-emoji="🧠">NICKGAMER</h1>
+      <h1 class="t" data-emoji="🫥">NICKGAMER</h1>
+      <h1 class="t o" data-emoji="🫂">NICKGAMER</h1>
+      <h1 class="t" data-emoji="👀">NICKGAMER</h1>
+      <h1 class="t o" data-emoji="💲">NICKGAMER</h1>
     </div>
     <div class="linha">
-      <h1 class="t">BRAYAN</h1>
-      <h1 class="t o">BRAYAN</h1>
-      <h1 class="t">BRAYAN</h1>
-      <h1 class="t o">BRAYAN</h1>
-      <h1 class="t">BRAYAN</h1>
-      <h1 class="t o">BRAYAN</h1>
-    </div>
-    <div class="linha reverse">
-      <h1 class="t">YIN ツ</h1>
-      <h1 class="t o">YIN ツ</h1>
-      <h1 class="t">YIN ツ</h1>
-      <h1 class="t o">YIN ツT</h1>
-      <h1 class="t">YIN ツ</h1>
-      <h1 class="t o">YIN ツ</h1>
-    </div>
-    <div class="linha">
-      <h1 class="t">JHOW</h1>
-      <h1 class="t o">JHOW</h1>
-      <h1 class="t">JHOW</h1>
-      <h1 class="t o">JHOW</h1>
-      <h1 class="t">JHOW</h1>
-      <h1 class="t o">JHOW</h1>
-    </div>
-    <div class="linha reverse">
-      <h1 class="t">LOWER</h1>
-      <h1 class="t o">LOWER</h1>
-      <h1 class="t">LOWER</h1>
-      <h1 class="t o">LOWER</h1>
-      <h1 class="t">LOWER</h1>
-      <h1 class="t o">LOWER</h1>
-    </div>
-    <div class="linha">
-      <h1 class="t">NOUSER</h1>
-      <h1 class="t o">NOUSER</h1>
-      <h1 class="t">NOUSER</h1>
-      <h1 class="t o">NOUSER</h1>
-      <h1 class="t">NOUSER</h1>
-      <h1 class="t o">NOUSER</h1>
+      <h1 class="t" data-emoji="😂">BRAYAN</h1>
+      <h1 class="t o" data-emoji="💅">BRAYAN</h1>
+      <h1 class="t" data-emoji="🤌">BRAYAN</h1>
+      <h1 class="t o" data-emoji="🤝">BRAYAN</h1>
+      <h1 class="t" data-emoji="Sumido">BRAYAN</h1>
+      <h1 class="t o" data-emoji="To cupado mn (n fala comigo faz meses)">BRAYAN</h1>
       <div class="linha"></div>
+    </div>
+    <div class="linha reverse">
+      <h1 class="t" data-emoji="n deveria tá aq mas ta kkk">YIN ツ</h1>
+      <h1 class="t o" data-emoji="🐂">YIN ツ</h1>
+      <h1 class="t" data-emoji="😡">YIN ツ</h1>
+      <h1 class="t o" data-emoji="🤬">YIN ツ</h1>
+      <h1 class="t" data-emoji="me troco por mulhe">YIN ツ</h1>
+      <h1 class="t o" data-emoji="fdp">YIN ツ</h1>
+    </div>
+    <div class="linha">
+      <h1 class="t" data-emoji="🧠💪">JHOW</h1>
+      <h1 class="t o" data-emoji="🧠💪">JHOW</h1>
+      <h1 class="t" data-emoji="🧠💪">JHOW</h1>
+      <h1 class="t o" data-emoji="🧠💪">JHOW</h1>
+      <h1 class="t" data-emoji="🧠💪">JHOW</h1>
+      <h1 class="t o" data-emoji="🧠💪">JHOW</h1>
     </div>
   </div>
   <p class="end">
@@ -199,168 +278,182 @@
   </p>
 </div>
 
-<!-- Modais -->
-<div id="contactModal" class="modal">
-  <div class="modal-content">
-    <span class="close-modal">&times;</span>
-    <h3 id="modalTitle">Enviar E-mail</h3>
-    <input type="text" id="modalInput" placeholder="Digite seu e-mail..." autocomplete="off">
-    <button id="modalNextBtn">Próximo</button>
+<!-- FORMULÁRIO DE PEDIDO -->
+<div id="formPedido" class="form-pedido">
+  <div class="form-container">
+    <h3>📦 Fazer um pedido</h3>
+    
+    <div class="form-group">
+      <label>💰 Escolha o valor</label>
+      <div class="valores-grid">
+        <div class="valor-btn" data-valor="0">R$ 0</div>
+        <div class="valor-btn" data-valor="2">R$ 2</div>
+        <div class="valor-btn" data-valor="5">R$ 5</div>
+        <div class="valor-btn" data-valor="10">R$ 10</div>
+        <div class="valor-btn" data-valor="25">R$ 25</div>
+      </div>
+    </div>
+    
+    <div id="tempoEntrega" class="tempo-entrega" style="display:none;"></div>
+    
+    <div class="form-group">
+      <label>👤 Seu nome</label>
+      <input type="text" id="clienteNome" placeholder="Digite seu nome">
+    </div>
+    
+    <div class="form-group">
+      <label>✏️ Descreva o que você quer criar</label>
+      <textarea id="clientePedido" placeholder="Ex: quero um logo para minha empresa, uma música de 30 segundos, um design de site..."></textarea>
+    </div>
+    
+    <button id="enviarPedido" class="btn-enviar">📨 Enviar pedido</button>
+    <button id="fecharPedido" class="btn-fechar">Fechar</button>
   </div>
 </div>
 
-<div id="pixModal" class="modal">
-  <div class="modal-content pix-modal">
-    <span class="close-modal">&times;</span>
-    <h3>Doação via Pix</h3>
-    <div class="pix-qr">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=00020126360014br.gov.bcb.pix0114epifaniofabiano23@gmail.com5204000053039865802BR5925Fabiano Epifanio6009SAO PAULO6108054090006226052312epifaniofabiano23@gmail.com6304F2C3" alt="QR Code Pix">
-    </div>
-    <p><strong>Chave Pix (E-mail):</strong></p>
-    <div class="pix-key">
-      epifaniofabiano23@gmail.com
-      <button class="copy-btn" onclick="copyPixKey()">Copiar</button>
-    </div>
-    <p style="font-size: 12px; margin-top: 15px;">Escaneie o QR Code ou copie a chave para doar</p>
-    <button onclick="window.open('https://nubank.com.br/cobrar/1a2b3c4d/5e6f7g8h')" style="background: #7D40FF;">Pagar com Pix Copia e Cola</button>
-  </div>
-</div>
-
-<script src="script.js">
-  let contactStep = 1;
-let contactEmail = '';
-let contactName = '';
-
-const contactModal = document.getElementById('contactModal');
-const modalTitle = document.getElementById('modalTitle');
-const modalInput = document.getElementById('modalInput');
-const modalNextBtn = document.getElementById('modalNextBtn');
-
-async function updateVisitorCount() {
-  const response = await fetch('/api/visitas');
-  const data = await response.json();
-  document.getElementById('visitorCount').textContent = data.visitas;
-}
-
-function openContactModal() {
-  contactStep = 1;
-  modalTitle.textContent = 'Enviar E-mail';
-  modalInput.placeholder = 'Digite seu e-mail...';
-  modalInput.value = '';
-  contactModal.style.display = 'flex';
-}
-
-function closeContactModal() {
-  contactModal.style.display = 'none';
-}
-
-async function sendEmail(email, name, subject) {
-  const response = await fetch('/api/enviar-email', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, nome: name, assunto: subject })
+<script>
+  // ⚠️ SUBSTITUA PELO SEU EMAIL ⚠️
+  const SEU_EMAIL = "seuemail@provedor.com";
+  
+  const precos = {
+    0: { tempo: "2 dias", obs: "", piscadas: 1 },
+    2: { tempo: "1 dia", obs: "", piscadas: 2 },
+    5: { tempo: "6 horas", obs: "", piscadas: 3 },
+    10: { tempo: "3 horas", obs: "", piscadas: 5 },
+    25: { tempo: "3 dias", obs: "infelizmente gastei apenas 3 dias nesse próprio site, então vai ser isso", piscadas: 10 }
+  };
+  
+  let valorSelecionado = null;
+  
+  function mostrarToast(mensagem, sucesso = true) {
+    const toast = document.createElement('div');
+    toast.className = 'toast-mensagem';
+    toast.style.borderLeftColor = sucesso ? '#4caf50' : '#ff6b6b';
+    toast.innerHTML = mensagem;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+  
+  function fazerPiscadinha(intensidade) {
+    let piscadasRestantes = intensidade;
+    function piscar() {
+      if (piscadasRestantes <= 0) return;
+      document.body.style.transition = 'background 0.05s';
+      document.body.style.background = '#fff';
+      setTimeout(() => { document.body.style.background = ''; }, 50);
+      piscadasRestantes--;
+      setTimeout(piscar, 120);
+    }
+    piscar();
+  }
+  
+  function mostrarContadorNosCreditos(valor) {
+    document.querySelectorAll('.contador-flutuante').forEach(el => el.remove());
+    let contagem = valor === 0 ? 1 : valor === 2 ? 3 : valor === 5 ? 6 : valor === 10 ? 12 : 25;
+    const nomes = document.querySelectorAll('.creditos .t');
+    nomes.forEach((nome, index) => {
+      setTimeout(() => {
+        const rect = nome.getBoundingClientRect();
+        const contador = document.createElement('div');
+        contador.className = 'contador-flutuante';
+        contador.textContent = `+${contagem}`;
+        contador.style.position = 'fixed';
+        contador.style.left = rect.left + 'px';
+        contador.style.top = (rect.top - 30) + 'px';
+        contador.style.fontSize = '1.2rem';
+        contador.style.color = '#ff6b6b';
+        contador.style.fontWeight = 'bold';
+        contador.style.pointerEvents = 'none';
+        contador.style.zIndex = '9999';
+        contador.style.opacity = '1';
+        contador.style.transition = 'all 1s ease-out';
+        document.body.appendChild(contador);
+        setTimeout(() => { contador.style.transform = 'translateY(-40px)'; contador.style.opacity = '0'; }, 10);
+        setTimeout(() => contador.remove(), 1000);
+      }, index * 50);
+    });
+  }
+  
+  const formModal = document.getElementById('formPedido');
+  
+  function abrirFormulario() { formModal.classList.add('active'); }
+  function fecharFormulario() {
+    formModal.classList.remove('active');
+    valorSelecionado = null;
+    document.querySelectorAll('.valor-btn').forEach(btn => btn.classList.remove('selected'));
+    document.getElementById('tempoEntrega').style.display = 'none';
+    document.getElementById('clienteNome').value = '';
+    document.getElementById('clientePedido').value = '';
+  }
+  
+  document.getElementById('fecharPedido').addEventListener('click', fecharFormulario);
+  
+  document.querySelectorAll('.valor-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.valor-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      valorSelecionado = parseInt(btn.getAttribute('data-valor'));
+      const info = precos[valorSelecionado];
+      const tempoDiv = document.getElementById('tempoEntrega');
+      let msg = `⏱️ Tempo de entrega: ${info.tempo}`;
+      if (info.obs) msg += `<br><small>${info.obs}</small>`;
+      tempoDiv.innerHTML = msg;
+      tempoDiv.style.display = 'block';
+      mostrarContadorNosCreditos(valorSelecionado);
+      fazerPiscadinha(info.piscadas);
+    });
   });
   
-  if (response.ok) {
-    alert('Mensagem enviada');
-    closeContactModal();
-  } else {
-    alert('Erro ao enviar');
-  }
-}
-
-modalNextBtn.onclick = () => {
-  const value = modalInput.value.trim();
-  
-  if (contactStep === 1) {
-    if (!value.includes('@')) {
-      alert('Email valido');
-      return;
-    }
-    contactEmail = value;
-    contactStep = 2;
-    modalTitle.textContent = 'Seu Nome';
-    modalInput.placeholder = 'Digite seu nome...';
-    modalInput.value = '';
-  }
-  else if (contactStep === 2) {
-    if (!value) {
-      alert('Digite seu nome');
-      return;
-    }
-    contactName = value;
-    contactStep = 3;
-    modalTitle.textContent = 'Assunto';
-    modalInput.placeholder = 'Digite o assunto...';
-    modalInput.value = '';
-  }
-  else if (contactStep === 3) {
-    if (!value) {
-      alert('Digite o assunto');
-      return;
-    }
-    sendEmail(contactEmail, contactName, value);
-  }
-};
-
-async function abrirModalDoacao() {
-  const response = await fetch('/api/gerar-codigo', { method: 'POST' });
-  const data = await response.json();
-  
-  const codigo = data.codigo;
-  
-  const modalHTML = `
-        <div id="modalDoacao" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:10000;display:flex;justify-content:center;align-items:center">
-            <div style="background:#1a1a1a;border:2px solid #36E1BC;border-radius:25px;padding:35px;max-width:400px;text-align:center">
-                <span style="position:absolute;top:15px;right:25px;font-size:30px;cursor:pointer;color:#fff" onclick="fecharModalDoacao()">&times;</span>
-                <h3 style="color:#36E1BC">Codigo de Doacao</h3>
-                <div style="background:#36E1BC;color:#000;font-size:28px;font-family:monospace;padding:20px;border-radius:15px;margin:20px 0">${codigo}</div>
-                <p>Valido por 2 minutos</p>
-                <input type="text" id="codigoInput" placeholder="Cole o codigo aqui" style="width:100%;padding:12px;margin:10px 0;background:rgba(255,255,255,0.1);border:1px solid #36E1BC;border-radius:10px;color:#fff">
-                <button id="validarBtn" style="background:#36E1BC;color:#000;border:none;padding:12px 30px;border-radius:10px;cursor:pointer">Gerar QR Code</button>
-                <div id="qrResultado"></div>
-            </div>
-        </div>
-    `;
-  
-  document.body.insertAdjacentHTML('beforeend', modalHTML);
-  
-  document.getElementById('validarBtn').onclick = async () => {
-    const codigoDigitado = document.getElementById('codigoInput').value.trim();
+  document.getElementById('enviarPedido').addEventListener('click', () => {
+    const nome = document.getElementById('clienteNome').value.trim();
+    const pedido = document.getElementById('clientePedido').value.trim();
     
-    const validacao = await fetch('/api/validar-codigo', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ codigo: codigoDigitado })
+    if (valorSelecionado === null) { mostrarToast("❌ Escolha um valor primeiro.", false); return; }
+    if (nome === "") { mostrarToast("❌ Digite seu nome.", false); return; }
+    if (pedido === "") { mostrarToast("❌ Descreva o que você quer criar.", false); return; }
+    
+    const info = precos[valorSelecionado];
+    const assunto = `Pedido - R$ ${valorSelecionado} - ${nome}`;
+    const corpo = `Nome: ${nome}\nValor: R$ ${valorSelecionado}\nTempo estimado: ${info.tempo}\n\nPedido:\n${pedido}`;
+    
+    window.location.href = `mailto:${SEU_EMAIL}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+    
+    mostrarToast("✅ Pedido enviado! Matheus vai responder no email.", true);
+    fecharFormulario();
+  });
+  
+  // ==================== EMOJIS FLUTUANTES ====================
+  function criarEmoji(emoji, x, y) {
+    const div = document.createElement('div');
+    div.textContent = emoji;
+    div.style.position = 'fixed';
+    div.style.left = (x - 15) + 'px';
+    div.style.top = (y - 20) + 'px';
+    div.style.fontSize = '1.8rem';
+    div.style.pointerEvents = 'none';
+    div.style.zIndex = '9999';
+    div.style.opacity = '1';
+    div.style.transition = 'all 0.8s ease-out';
+    document.body.appendChild(div);
+    setTimeout(() => { div.style.transform = 'translateY(-50px)'; div.style.opacity = '0'; }, 10);
+    setTimeout(() => div.remove(), 800);
+  }
+  
+  let ultimoTempo = 0;
+  document.querySelectorAll('.creditos .t').forEach(el => {
+    const emoji = el.getAttribute('data-emoji');
+    if (!emoji) return;
+    el.addEventListener('mousemove', (e) => {
+      const agora = Date.now();
+      if (agora - ultimoTempo > 50) { ultimoTempo = agora; criarEmoji(emoji, e.clientX, e.clientY); }
     });
-    
-    const resultado = await validacao.json();
-    
-    if (resultado.erro) {
-      document.getElementById('qrResultado').innerHTML = `<p style="color:#ff6666">${resultado.erro}</p>`;
-    } else {
-      document.getElementById('qrResultado').innerHTML = `<img src="${resultado.qrCodeUrl}" style="max-width:100%;margin-top:15px">`;
-    }
-  };
-}
-
-function fecharModalDoacao() {
-  const modal = document.getElementById('modalDoacao');
-  if (modal) modal.remove();
-}
-
-document.getElementById('contactBtn').onclick = openContactModal;
-document.getElementById('donateBtn').onclick = abrirModalDoacao;
-
-document.querySelectorAll('.close-modal').forEach(btn => {
-  btn.onclick = closeContactModal;
-});
-
-window.onclick = (event) => {
-  if (event.target === contactModal) closeContactModal();
-};
-
-updateVisitorCount();
+    el.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      const agora = Date.now();
+      if (agora - ultimoTempo > 50) { ultimoTempo = agora; const touch = e.touches[0]; criarEmoji(emoji, touch.clientX, touch.clientY); }
+    });
+  });
 </script>
+
 </body>
 </html>
