@@ -1,459 +1,160 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matheus - Portfólio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Matheus - Portfólio · O Despertar</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bentham&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Italiana&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="port.css">
-  
   <style>
-    .form-pedido {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.9);
-      z-index: 10000;
-      justify-content: center;
-      align-items: center;
+    @keyframes fadeMsg { 0%{opacity:0;transform:translateY(10px)}15%{opacity:1;transform:translateY(0)}75%{opacity:1}100%{opacity:0}}
+    @keyframes contadorPulse { 0%,100%{transform:scale(1);box-shadow:0 0 15px rgba(255,107,129,0.2)}50%{transform:scale(1.03);box-shadow:0 0 30px rgba(255,107,129,0.4)}}
+    @keyframes utBlink { 0%,100%{opacity:1} 50%{opacity:0.2}}
+    @keyframes utScreenShake { 0%,100%{transform:translate(0,0)}20%{transform:translate(-6px,4px)}40%{transform:translate(4px,-3px)}60%{transform:translate(-3px,-5px)}80%{transform:translate(5px,2px)}}
+    @keyframes utParticleFly { 0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--px),var(--py)) scale(0)}}
+    @keyframes creditsRoll { 0% { transform: translateY(0); } 100% { transform: translateY(-92%); } }
+    @keyframes creditsStar { 0%,100% { opacity:0.3; } 50% { opacity:1; } }
+    @keyframes smokeFloat { 0% { opacity:0.8;transform:translate(0,0) scale(0.5); } 50% { opacity:0.5;transform:translate(10px,-30px) scale(1.2); } 100% { opacity:0;transform:translate(-20px,-60px) scale(1.5); } }
+    @keyframes explosionBurst { 0% { transform:scale(0);opacity:1; } 50% { transform:scale(2);opacity:0.8; } 100% { transform:scale(3);opacity:0; } }
+    @keyframes utBoneCross { 0%{left:var(--startX);top:var(--startY);opacity:1} 80%{opacity:1} 100%{left:var(--endX);top:var(--endY);opacity:0} }
+    @keyframes utBlastFire { 0%{transform:scale(0);opacity:0} 50%{transform:scale(1.3);opacity:1} 100%{transform:scale(1);opacity:0.9} }
+    @keyframes laserSpin { 0%{transform:translate(-50%,-50%) rotate(0deg);} 100%{transform:translate(-50%,-50%) rotate(360deg);} }
+    @keyframes niverPulse { 0%,100%{text-shadow:0 0 10px #ff6b81,0 0 20px #ff6b81;} 50%{text-shadow:0 0 30px #ff6b81,0 0 60px #ff6b81,0 0 90px #ff4757;} }
+    @keyframes fogMove { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
+
+    #utBattleArea {
+      background-image: url('chao.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
-    .form-pedido.active {
-      display: flex;
-    }
-    .form-container {
-      background: #1e1e1e;
-      border-radius: 20px;
-      padding: 30px;
-      max-width: 500px;
-      width: 90%;
-      max-height: 90vh;
-      overflow-y: auto;
-      border: 1px solid #333;
-    }
-    .form-container h3 {
-      color: #ff6b6b;
-      margin-bottom: 20px;
-      font-size: 1.8rem;
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: #ccc;
-    }
-    .form-group input, .form-group textarea {
-      width: 100%;
-      padding: 12px;
-      background: #2a2a2a;
-      border: 1px solid #444;
-      border-radius: 10px;
-      color: white;
-      font-family: inherit;
-      resize: vertical;
-    }
-    .form-group textarea {
-      min-height: 100px;
-    }
-    .valores-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    .valor-btn {
-      background: #2a2a2a;
-      border: 1px solid #444;
-      padding: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      text-align: center;
-      transition: 0.2s;
-    }
-    .valor-btn.selected {
-      background: #ff6b6b;
-      border-color: #ff6b6b;
-      color: #000;
-    }
-    .tempo-entrega {
-      background: #0a0a0a;
-      padding: 10px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      text-align: center;
-      color: #ff6b6b;
-    }
-    .btn-enviar {
-      background: #ff6b6b;
-      border: none;
-      padding: 14px;
-      border-radius: 40px;
-      width: 100%;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .btn-fechar {
-      background: #444;
-      border: none;
-      padding: 10px;
-      border-radius: 40px;
-      width: 100%;
-      margin-top: 10px;
-      cursor: pointer;
-    }
-    .toast-mensagem {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: #1e1e1e;
-      border-left: 4px solid #4caf50;
-      padding: 12px 20px;
-      border-radius: 10px;
-      z-index: 10001;
-      animation: fadeOut 3s forwards;
-    }
-    @keyframes fadeOut {
-      0% { opacity: 0; transform: translateX(50px); }
-      15% { opacity: 1; transform: translateX(0); }
-      85% { opacity: 1; }
-      100% { opacity: 0; visibility: hidden; }
-    }
+
+    .clickable-name { cursor: pointer; transition: 0.2s; user-select: none; }
+    .clickable-name:hover { text-shadow: 0 0 15px rgba(255,107,129,0.6); }
+    .clickable-name:active { transform: scale(0.9); }
+    .clickable-name.clicked { color: #ff6b81 !important; -webkit-text-stroke: 0.6px #ff6b81; }
+    .clickable-name.dragged { opacity: 0.6; transition: 0.3s; }
+    #heartMission { cursor: pointer; transition: 0.2s; }
+    #heartMission:active { transform: scale(1.3); color: #ff4757; }
+    #missaoPanel { display: none; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 15px 20px; margin: 0 auto 20px; max-width: 400px; font-family: 'Work Sans',sans-serif; font-size: 13px; backdrop-filter: blur(10px); }
+    #btnToggleMissoes { position: fixed; top: 80px; right: 20px; z-index: 9997; background: rgba(0,0,0,0.8); color: #fff; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 45px; height: 45px; font-size: 20px; cursor: pointer; backdrop-filter: blur(10px); display: none; }
+    #secretMsg { display: none; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,107,129,0.5); border-radius: 12px; padding: 12px 20px; margin: 15px auto; max-width: 400px; font-family: 'Work Sans',sans-serif; font-size: 14px; color: #fff; text-align: center; }
+    .utBone { position:absolute;width:45px;height:7px;background:linear-gradient(180deg,#fff,#ddd,#fff);border-radius:2px;box-shadow:0 0 8px #fff,0 0 16px rgba(255,0,0,0.4);animation:utBoneCross var(--dur) linear forwards;z-index:5; }
+    .utGasterBlaster { position:absolute;width:42px;height:28px;background:#fff;clip-path:polygon(0 0,60% 0,100% 30%,100% 70%,60% 100%,0 100%,20% 50%);box-shadow:0 0 20px #fff,0 0 40px #f00;animation:utBlastFire 0.5s ease-out forwards;z-index:6; }
+    .utLaser { position:absolute;width:8px;height:80px;background:linear-gradient(180deg,#ff0000,#ff4444,#ff0000);border-radius:4px;box-shadow:0 0 20px #f00,0 0 40px #f44;z-index:7;transform-origin:center center;animation:laserSpin 3s linear infinite;}
+    .utDialogChoice { color:#ffcc00;cursor:pointer;padding:5px 10px;transition:0.12s;font-size:13px; }
+    .utDialogChoice:hover { color:#fff;background:rgba(255,204,0,0.08);text-shadow:0 0 8px #ffcc00;border-left:3px solid #ffcc00;padding-left:7px; }
+    @media (orientation: landscape) { #utScreen { width: auto; height: 100vh; aspect-ratio: 4/6; max-height: 100vh; } #utDialogBox { min-height: 60px; font-size: 11px; } }
   </style>
 </head>
 <body>
+<header><h3 class="name">Matheus N, </h3></header>
+<div class="hero"><div class="decoration">Welcomee! 👋</div><h1 class="slogan">Crie o que quiser, só basta <span class="myname">Querer.</span></h1><p class="descr">Olá, Me chamo Matheus. Sou um Designer, Web Developer, e produtor musical. Gosto do que a tecnologia pode nos oferecer se soubermos como aproveitar</p></div>
+<div class="hero2"><h1 class="title">Projetos</h1><p class="descr2">Os projetos em que já participei/faço parte</p><div class="flex-proj"><div class="project"><div class="gm"></div><div class="info"><h4 class="nameproject">Gamer Arcade</h4><p class="history">A Gamer Arcade é uma rede social para gamers criada & desenvolvida por NickGamer e Matheus em 2024.</p><a class="link" href="https://discord.com/invite/2kn6U6xPw"><button class="enter"><span class="material-symbols-rounded">arrow_outward</span></button></a></div></div><div class="project"><div class="gm k"></div><div class="info"><h4 class="nameproject">Knight's</h4><p class="history">Uma ex-equipe brasileira de jogos para celulares, contendo Matheus, Michele, Jhow como funcionários. Que infelizmente foi fechada por conflitos internos.</p><button class="enter c"><span class="material-symbols-rounded">arrow_outward</span></button></div></div><div class="project"><div class="gm l"></div><div class="info"><h4 class="nameproject">Project Arcade</h4><p class="history">A Project Arcade é um aplicativo para gamers, juntando os seus gostos & conexões de um único só lugar. Criada por Gox, e desenvolvido por Nickgamer.</p><button class="enter c"><span class="material-symbols-rounded">arrow_outward</span></button></div></div><div class="project"><div class="gm thx"></div><div class="info"><h4 class="nameproject">THX Education</h4><p class="history">Comunidade de estudos online gratuita.</p><a class="link" href="https://thxeducation.vercel.app"><button class="enter"><span class="material-symbols-rounded">arrow_outward</span></button></a></div></div><div class="project"><div class="gm s"></div><div class="info"><h4 class="nameproject">Solo Byte</h4><p class="history">Nem sei q qeu fiz aq </p><button class="enter c"><span class="material-symbols-rounded">arrow_outward</span></button></div></div><div class="project"><div class="gm cn"></div><div class="info"><h4 class="nameproject">Chat Nick</h4><p class="history">Aplicativo focado em comunidades online.</p><button class="enter c"><span class="material-symbols-rounded">arrow_outward</span></button></div></div><div class="project"><div class="gm pp"></div><div class="info"><h4 class="nameproject">ProtectPass</h4><p class="history">Projeto voltado para gerenciamento de senhas.</p><a class="link" href="https://protectpass.vercel.app"><button class="enter bugs"><span class="material-symbols-rounded">bug_report</span></button></a></div></div></div></div>
+<div class="trust"><span class="material-symbols-rounded">handshake</span> Sim, todos eles confiam em mim! <span class="material-symbols-rounded tr">verified_user</span></div>
+<div class="hero2 hero3"><h1 class="t-g">Ganhos</h1><div class="conteiner-flex"><div class="conteiner">R$ 0</div><div class="conteiner">R$ 22</div></div><div class="qnd-flex"><div class="qnd qnd1">Atualmente</div><div class="qnd qnd2">Última vez</div></div></div>
+<div class="creditos"><h1 class="title t1">Agradecimentos <span class="material-symbols-rounded heart" id="heartMission">favorite</span></h1><div id="missaoPanel"><div style="font-weight:700;margin-bottom:8px;color:#ff6b81;">🎯 Missões de <span id="missaoPlayerNome">---</span></div><div id="missContrato">🤝 Contrato: <span style="color:#4caf50;">Ativo</span></div><div id="missCoracao">❤️ Coração (0/10): <span style="color:#ff6b81;">Pendente</span></div><div id="missCliques">👆 Cliques (0/5): <span style="color:#ff6b81;">Pendente</span></div><div id="missArrastos">📜 Mensagens (0/4): <span style="color:#ff6b81;">Pendente</span></div></div><div class="blockcopy"><div class="linha"></div><div class="linha"><h1 class="t clickable-name" data-emoji="👑" data-nome="MICHELE">MICHELE</h1><h1 class="t o clickable-name" data-emoji="♥️" data-nome="MICHELE">MICHELE</h1><h1 class="t clickable-name" data-emoji="+1 Ano de contrato" data-nome="MICHELE">MICHELE</h1><h1 class="t o clickable-name" data-emoji="🫪" data-nome="MICHELE">MICHELE</h1><h1 class="t clickable-name" data-emoji="-1 Anos até engravidar (parabéns, qual Será o nome)" data-nome="MICHELE">MICHELE</h1><h1 class="t o clickable-name" data-emoji="✨" data-nome="MICHELE">MICHELE</h1></div><div class="linha reverse"><h1 class="t clickable-name" data-emoji="🧑‍💻" data-nome="NICKGAMER">NICKGAMER</h1><h1 class="t o clickable-name" data-emoji="🧠" data-nome="NICKGAMER">NICKGAMER</h1><h1 class="t clickable-name" data-emoji="🫥" data-nome="NICKGAMER">NICKGAMER</h1><h1 class="t o clickable-name" data-emoji="🫂" data-nome="NICKGAMER">NICKGAMER</h1><h1 class="t clickable-name" data-emoji="👀" data-nome="NICKGAMER">NICKGAMER</h1><h1 class="t o clickable-name" data-emoji="💲" data-nome="NICKGAMER">NICKGAMER</h1></div><div class="linha"><h1 class="t clickable-name" data-emoji="😂" data-nome="BRAYAN">BRAYAN</h1><h1 class="t o clickable-name" data-emoji="💅" data-nome="BRAYAN">BRAYAN</h1><h1 class="t clickable-name" data-emoji="🤌" data-nome="BRAYAN">BRAYAN</h1><h1 class="t o clickable-name" data-emoji="🤝" data-nome="BRAYAN">BRAYAN</h1><h1 class="t clickable-name" data-emoji="Sumido" data-nome="BRAYAN">BRAYAN</h1><h1 class="t o clickable-name" data-emoji="To cupado mn (n fala comigo faz meses)" data-nome="BRAYAN">BRAYAN</h1></div><div class="linha reverse"><h1 class="t clickable-name" data-emoji="n deveria tá aq mas ta kkk" data-nome="YIN">YIN ツ</h1><h1 class="t o clickable-name" data-emoji="🐂" data-nome="YIN">YIN ツ</h1><h1 class="t clickable-name" data-emoji="😡" data-nome="YIN">YIN ツ</h1><h1 class="t o clickable-name" data-emoji="🤬" data-nome="YIN">YIN ツ</h1><h1 class="t clickable-name" data-emoji="me troco por mulhe" data-nome="YIN">YIN ツ</h1><h1 class="t o clickable-name" data-emoji="fdp" data-nome="YIN">YIN ツ</h1></div><div class="linha"><h1 class="t clickable-name" data-emoji="🧠💪" data-nome="JHOW">JHOW</h1><h1 class="t o clickable-name" data-emoji="🧠💪" data-nome="JHOW">JHOW</h1><h1 class="t clickable-name" data-emoji="🧠💪" data-nome="JHOW">JHOW</h1><h1 class="t o clickable-name" data-emoji="🧠💪" data-nome="JHOW">JHOW</h1><h1 class="t clickable-name" data-emoji="🧠💪" data-nome="JHOW">JHOW</h1><h1 class="t o clickable-name" data-emoji="🧠💪" data-nome="JHOW">JHOW</h1></div></div><div id="secretMsg"></div><p class="end">"É com uma enorme gratidão que eu demonstro o meu orgulho através desses nomes magníficos, que estiveram do meu lado durante todo esse tempo ♥️". — Matheus 8/05/26<br><br><button id="btnAtualizarContrato" style="background:#FFFFFF;color:#000000;border:none;padding:12px 24px;border-radius:20px;font-family:'Work Sans',sans-serif;font-size:13px;cursor:pointer;z-index:99999;display:inline-flex;align-items:center;gap:8px;margin-top:10px;"><span class="material-symbols-rounded">contract_edit</span> Atualizar Contrato</button></p></div>
+<div id="formPedido" class="form-pedido"><div class="form-container"><h3>📦 Fazer um pedido</h3><div class="form-group"><label>💰 Escolha o valor</label><div class="valores-grid"><div class="valor-btn" data-valor="0">R$ 0</div><div class="valor-btn" data-valor="2">R$ 2</div><div class="valor-btn" data-valor="5">R$ 5</div><div class="valor-btn" data-valor="10">R$ 10</div><div class="valor-btn" data-valor="25">R$ 25</div></div></div><div id="tempoEntrega" class="tempo-entrega" style="display:none;"></div><div class="form-group"><label>👤 Seu nome</label><input type="text" id="clienteNome" placeholder="Digite seu nome"></div><div class="form-group"><label>✏️ Descreva o que você quer criar</label><textarea id="clientePedido" placeholder="Ex: quero um logo para minha empresa, uma música de 30 segundos, um design de site..."></textarea></div><button id="enviarPedido" class="btn-enviar">📨 Enviar pedido</button><button id="fecharPedido" class="btn-fechar">Fechar</button></div></div>
+<div id="modalContrato" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:99999;justify-content:center;align-items:center;"><div style="background:#090c0f;border-radius:20px;padding:30px;max-width:400px;width:90%;border:1px solid #0d1014;text-align:center;"><h3 style="font-size:1.3em;color:#fff;">Atualizar contrato</h3><input id="inputContratoNome" type="text" placeholder="Nome (MICHELE, NICKGAMER, BRAYAN, YIN, JHOW)" style="width:100%;padding:12px;background:#0c1017;border:1px solid #171b21;border-radius:10px;color:#fff;font-family:inherit;margin-bottom:15px;"><div style="display:flex;gap:10px;"><button id="btnSalvarContrato" style="flex:1;background:#fffffb;border:none;padding:12px;border-radius:40px;font-weight:bold;cursor:pointer;color:#000;">Salvar</button><button id="btnCancelarContrato" style="flex:1;background:transparent;border:1px solid #555;color:#ccc;padding:12px;border-radius:40px;cursor:pointer;">Cancelar</button></div></div></div>
+<button id="btnToggleMissoes">🎯</button>
 
-<header>
-  <h3 class="name">Matheus N, </h3>
-</header>
-
-<div class="hero">
-  <div class="decoration">Welcomee! 👋</div>
-  <h1 class="slogan">Crie o que quiser, só basta <span class="myname">Querer.</span></h1>
-  <p class="descr">
-    Olá, Me chamo Matheus. Sou um Designer, Web Developer, e produtor musical. Gosto do que a tecnologia pode nos oferecer se soubermos como aproveitar
-  </p>
-</div>
-
-<div class="hero2">
-  <h1 class="title">Projetos</h1>
-  <p class="descr2">Os projetos em que já participei/faço parte</p>
-  <div class="flex-proj">
-    <div class="project">
-      <div class="gm"></div>
-      <div class="info">
-        <h4 class="nameproject">Gamer Arcade</h4>
-        <p class="history">A Gamer Arcade é uma rede social para gamers criada & desenvolvida por NickGamer e Matheus em 2024.</p>
-        <a class="link" href="https://discord.com/invite/2kn6U6xPw">
-          <button class="enter"><span class="material-symbols-rounded">arrow_outward</span></button>
-        </a>
-      </div>
+<div id="utGame" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:100000;font-family:'Courier New',monospace;">
+  <div id="utScreen" style="width:100%;max-width:500px;height:100%;margin:0 auto;position:relative;border-left:4px solid #fff;border-right:4px solid #fff;background:#000;overflow:hidden;display:flex;flex-direction:column;">
+    <div id="utBattleArea" style="flex:1;position:relative;overflow:hidden;">
+      <div id="utBorderFlash" style="position:absolute;inset:0;border:0px solid #f00;pointer-events:none;z-index:20;"></div>
+      <div id="utParticles" style="position:absolute;inset:0;pointer-events:none;z-index:18;"></div>
+      <div id="utSoul" style="position:absolute;width:32px;height:32px;left:50%;top:60%;transform:translate(-50%,-50%);z-index:10;font-size:24px;text-align:center;line-height:32px;filter:drop-shadow(0 0 8px #f00) drop-shadow(0 0 16px #f44);"><img style="width:32px;height:32px;" src="heart.png"></div>
+      <div id="utBrokenSoul" style="position:absolute;width:80px;height:80px;left:50%;top:22%;transform:translate(-50%,-50%);display:block;text-align:center;z-index:8;"><img src="vicmont.svg" style="width:70px;height:70px;filter:drop-shadow(0 0 6px #f88);"></div>
+      <div id="utShake" style="position:absolute;inset:0;pointer-events:none;z-index:15;"></div>
     </div>
-    <div class="project">
-      <div class="gm k"></div>
-      <div class="info">
-        <h4 class="nameproject">Knight's</h4>
-        <p class="history">Uma ex-equipe brasileira de jogos para celulares, contendo Matheus, Michele, Jhow como funcionários. Que infelizmente foi fechada por conflitos internos.</p>
-        <button class="enter c"><span class="material-symbols-rounded">arrow_outward</span></button>
-      </div>
+    <div id="utDialogBox" style="min-height:100px;background:#0a0a0f;border-top:4px solid #fff;padding:15px;color:#fff;font-size:13px;line-height:1.5;position:relative;font-family:'Courier New',monospace;">
+      <div style="position:absolute;top:5px;left:12px;font-size:8px;color:#555;">★ MATHEUS</div>
+      <div id="utDialogText" style="margin:10px 0;"></div>
+      <div id="utDialogChoices" style="display:flex;flex-direction:column;gap:4px;"></div>
+      <div id="utDialogContinue" style="position:absolute;bottom:6px;right:15px;color:#fff;animation:utBlink 1s infinite;display:none;font-size:16px;">▼</div>
     </div>
-    <div class="project">
-      <div class="gm l"></div>
-      <div class="info">
-        <h4 class="nameproject">Project Arcade</h4>
-        <p class="history">A Project Arcade é um aplicativo para gamers, juntando os seus gostos & conexões de um único só lugar. Criada por Gox, e desenvolvido por Nickgamer.</p>
-        <button class="enter c"><span class="material-symbols-rounded">arrow_outward</span></button>
-      </div>
-    </div>
-    <div class="project">
-      <div class="gm thx"></div>
-      <div class="info">
-        <h4 class="nameproject">THX Education</h4>
-        <p class="history">Comunidade de estudos online gratuita.</p>
-        <a class="link" href="https://thxeducation.vercel.app">
-          <button class="enter"><span class="material-symbols-rounded">arrow_outward</span></button>
-        </a>
-      </div>
-    </div>
-    <div class="project">
-      <div class="gm s"></div>
-      <div class="info">
-        <h4 class="nameproject">Solo Byte</h4>
-        <p class="history">Nem sei q qeu fiz aq </p>
-        <button class="enter c"><span class="material-symbols-rounded">arrow_outward</span></button>
-      </div>
-    </div>
-    <div class="project">
-      <div class="gm cn"></div>
-      <div class="info">
-        <h4 class="nameproject">Chat Nick</h4>
-        <p class="history">Aplicativo focado em comunidades online.</p>
-        <button class="enter c"><span class="material-symbols-rounded">arrow_outward</span></button>
-      </div>
-    </div>
-    <div class="project">
-      <div class="gm pp"></div>
-      <div class="info">
-        <h4 class="nameproject">ProtectPass</h4>
-        <p class="history">Projeto voltado para gerenciamento de senhas.</p>
-        <a class="link" href="https://protectpass.vercel.app">
-        <button class="enter bugs"><span class="material-symbols-rounded">bug_report</span></button></a>
+    <div id="utHUD" style="position:relative;z-index:5;font-family:'Courier New',monospace;pointer-events:none;background:#000;border-top:2px solid #fff;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 14px;">
+        <div style="display:flex;align-items:center;gap:6px;"><span>❤️</span><span id="utHP" style="color:#f44;font-weight:bold;">20</span></div>
+        <div id="utMapName" style="color:#ff6b81;font-size:11px;font-weight:bold;">🌑 O Silêncio</div>
+        <div id="utLives" style="font-size:16px;letter-spacing:2px;"></div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="trust">
-  <span class="material-symbols-rounded">handshake</span> Sim, todos eles confiam em mim! <span class="material-symbols-rounded tr">verified_user</span>
-</div>
+<div id="cinematicCredits" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:100003;overflow:hidden;font-family:'Bentham',serif;"><div id="creditsStars" style="position:absolute;inset:0;z-index:1;"></div><div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.9) 100%);pointer-events:none;z-index:2;"></div><div id="creditsScroll" style="position:relative;z-index:10;text-align:center;color:#fff;padding:130% 30px 50%;animation:creditsRoll 70s linear forwards;"><div style="margin-bottom:80px;"><div style="font-size:clamp(24px,5vw,42px);font-weight:bold;color:#fff;letter-spacing:8px;font-family:'Bodoni Moda',serif;">MATTHEW'S</div><div style="font-size:clamp(28px,6vw,52px);font-weight:bold;color:#ff6b81;letter-spacing:10px;font-family:'Bodoni Moda',serif;text-shadow:0 0 30px rgba(255,107,129,0.6);margin:5px 0;">HOME</div><div style="width:40%;height:2px;background:linear-gradient(90deg,transparent,#fff,transparent);margin:25px auto;"></div><div style="font-size:16px;color:#aaa;font-style:italic;">Uma jornada de amizade, raiva e redenção</div><div style="font-size:13px;color:#666;margin-top:15px;">Desenvolvido ao longo de 5 dias</div><div style="font-size:13px;color:#666;">Com muito esforço, estresse e amor</div></div><div style="width:70%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,107,129,0.6),transparent);margin:60px auto;"></div><div style="margin-bottom:70px;"><div style="font-size:11px;color:#ff6b81;letter-spacing:6px;margin-bottom:30px;">★ MÚSICA ★</div><div style="font-size:15px;color:#fff;line-height:2.8;"><p>🎵 <strong>Músico</strong><br><span style="color:#aaa;">Matheus</span></p><p>🎼 <strong>Compositor</strong><br><span style="color:#aaa;">Matheus</span></p><p>🎹 <strong>Arranjador</strong><br><span style="color:#aaa;">Matheus</span></p><p>🥁 <strong>Produtor Musical</strong><br><span style="color:#aaa;">Matheus</span></p><p>🎧 <strong>Sound Designer</strong><br><span style="color:#aaa;">Matheus</span></p><p>🎤 <strong>Mixagem & Masterização</strong><br><span style="color:#aaa;">Matheus</span></p><p>🎶 <strong>Trilha Sonora Original</strong><br><span style="color:#aaa;">Matheus</span></p></div></div><div style="width:30%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);margin:50px auto;"></div><div style="margin-bottom:70px;"><div style="font-size:11px;color:#ff6b81;letter-spacing:6px;margin-bottom:30px;">★ ARTE ★</div><div style="font-size:15px;color:#fff;line-height:2.8;"><p>🎨 <strong>Designer</strong><br><span style="color:#aaa;">Matheus</span></p><p>🖌️ <strong>Diretor de Arte</strong><br><span style="color:#aaa;">Matheus</span></p><p>🖼️ <strong>UI/UX Designer</strong><br><span style="color:#aaa;">Matheus</span></p><p>🌈 <strong>Paleta de Cores</strong><br><span style="color:#aaa;">Matheus</span></p><p>✨ <strong>Animações</strong><br><span style="color:#aaa;">Matheus</span></p><p>🖊️ <strong>Tipografia</strong><br><span style="color:#aaa;">Google Fonts & Matheus</span></p><p>🎬 <strong>Motion Designer</strong><br><span style="color:#aaa;">Matheus</span></p></div></div><div style="width:30%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);margin:50px auto;"></div><div style="margin-bottom:70px;"><div style="font-size:11px;color:#ff6b81;letter-spacing:6px;margin-bottom:30px;">★ GAME DESIGN ★</div><div style="font-size:15px;color:#fff;line-height:2.8;"><p>🎮 <strong>Game Designer</strong><br><span style="color:#aaa;">Matheus</span></p><p>🗺️ <strong>Level Designer</strong><br><span style="color:#aaa;">Matheus</span></p><p>⚔️ <strong>Sistema de Batalha</strong><br><span style="color:#aaa;">Matheus</span></p><p>💀 <strong>Balanceamento</strong><br><span style="color:#aaa;">Matheus (difícil de propósito)</span></p><p>🏆 <strong>Sistema de Conquistas</strong><br><span style="color:#aaa;">Matheus</span></p><p>🎯 <strong>Missões</strong><br><span style="color:#aaa;">Matheus</span></p><p>🧩 <strong>Mecânicas Especiais</strong><br><span style="color:#aaa;">Matheus</span></p></div></div><div style="width:30%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);margin:50px auto;"></div><div style="margin-bottom:70px;"><div style="font-size:11px;color:#ff6b81;letter-spacing:6px;margin-bottom:30px;">★ ROTEIRO ★</div><div style="font-size:15px;color:#fff;line-height:2.8;"><p>📝 <strong>Roteirista</strong><br><span style="color:#aaa;">Matheus</span></p><p>💬 <strong>Diálogos</strong><br><span style="color:#aaa;">Matheus</span></p><p>😢 <strong>Momentos Tristes</strong><br><span style="color:#aaa;">Matheus</span></p><p>😂 <strong>Alívio Cômico</strong><br><span style="color:#aaa;">Matheus (tentando)</span></p><p>💚 <strong>Mensagem Final</strong><br><span style="color:#aaa;">Matheus</span></p><p>📖 <strong>História Original</strong><br><span style="color:#aaa;">Baseada em fatos reais</span></p></div></div><div style="width:30%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);margin:50px auto;"></div><div style="margin-bottom:70px;"><div style="font-size:11px;color:#ffcc00;letter-spacing:6px;margin-bottom:30px;">★ DESENVOLVIMENTO ★</div><div style="font-size:15px;color:#fff;line-height:2.8;"><p>💻 <strong>Programador</strong><br><span style="color:#ffcc00;">Matheus</span></p><p>🌐 <strong>Web Developer</strong><br><span style="color:#aaa;">Matheus</span></p><p>🔥 <strong>Firebase</strong><br><span style="color:#aaa;">Matheus</span></p><p>🧪 <strong>Testador</strong><br><span style="color:#aaa;">Matheus</span></p><p>🐛 <strong>Debugger</strong><br><span style="color:#aaa;">Matheus (4 dias de raiva)</span></p><p>🕯️ <strong>Paciência Infinita</strong><br><span style="color:#aaa;">Matheus (quase chorando)</span></p><p>💡 <strong>Ideia Original</strong><br><span style="color:#aaa;">Matheus</span></p><p>🚀 <strong>Deploy</strong><br><span style="color:#aaa;">Matheus</span></p></div></div><div style="width:30%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);margin:50px auto;"></div><div style="margin-bottom:70px;"><div style="font-size:11px;color:#ff6b81;letter-spacing:6px;margin-bottom:30px;">★ PRODUÇÃO ★</div><div style="font-size:15px;color:#fff;line-height:2.8;"><p>📋 <strong>Produtor Executivo</strong><br><span style="color:#aaa;">Matheus</span></p><p>🎬 <strong>Diretor Criativo</strong><br><span style="color:#aaa;">Matheus</span></p><p>⏰ <strong>5 Dias de Desenvolvimento</strong><br><span style="color:#aaa;">Matheus</span></p><p>☕ <strong>Café</strong><br><span style="color:#aaa;">Muito</span></p><p>😤 <strong>Estresse</strong><br><span style="color:#aaa;">Também muito</span></p><p>💖 <strong>Motivação</strong><br><span style="color:#aaa;">Vocês</span></p></div></div><div style="width:30%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);margin:50px auto;"></div><div style="margin-bottom:70px;"><div style="font-size:11px;color:#ff6b81;letter-spacing:6px;margin-bottom:30px;">★ TAMBÉM FEZ ★</div><div style="font-size:15px;color:#fff;line-height:2.8;"><p>🎭 <strong>Ator Principal</strong><br><span style="color:#aaa;">Matheus</span></p><p>🎪 <strong>Malabarista de Código</strong><br><span style="color:#aaa;">Matheus</span></p><p>🧙‍♂️ <strong>Mago do CSS</strong><br><span style="color:#aaa;">Matheus</span></p><p>🦸 <strong>Herói da Paciência</strong><br><span style="color:#aaa;">Matheus</span></p><p>🤹 <strong>Equilibrista de Bugs</strong><br><span style="color:#aaa;">Matheus</span></p><p>🔮 <strong>Vidente (quase)</strong><br><span style="color:#aaa;">Matheus (não previu os erros)</span></p><p>🧩 <strong>Montador de Quebra-Cabeças</strong><br><span style="color:#aaa;">Matheus</span></p><p>🎯 <strong>Atirador de Elite de Prompt</strong><br><span style="color:#aaa;">Matheus</span></p><p>🏗️ <strong>Arquiteto de Sonhos</strong><br><span style="color:#aaa;">Matheus</span></p><p>🫂 <strong>Abraçador de Amigos</strong><br><span style="color:#aaa;">Matheus</span></p><p>📞 <strong>Suporte Emocional</strong><br><span style="color:#aaa;">Matheus</span></p><p>🧠 <strong>Psicólogo de IA</strong><br><span style="color:#aaa;">Matheus (5 dias tentando)</span></p></div></div><div style="width:70%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,107,129,0.6),transparent);margin:60px auto;"></div><div style="margin-bottom:70px;"><div style="font-size:11px;color:#ff6b81;letter-spacing:6px;margin-bottom:30px;">★ AGRADECIMENTOS ESPECIAIS ★</div><div style="font-size:18px;color:#fff;line-height:3;"><p>👑 <strong>MICHELE</strong></p><p>🧑‍💻 <strong>NICKGAMER</strong></p><p>😂 <strong>BRAYAN</strong></p><p>🐂 <strong>YIN ツ</strong></p><p>🧠 <strong>JHOW</strong></p></div><div id="niverCreditsMsg" style="margin-top:30px;font-size:16px;color:#ff6b81;animation:niverPulse 2s ease-in-out infinite;"></div><div style="margin-top:40px;font-size:13px;color:#888;line-height:2;"><p>...e a todos os chats de IA que tentaram,</p><p>falharam, mas me trouxeram até aqui.</p></div></div><div style="width:50%;height:1px;background:linear-gradient(90deg,transparent,#ff6b81,transparent);margin:60px auto;"></div><div style="margin-top:60px;"><div style="font-size:clamp(16px,3vw,22px);color:#ff6b81;font-family:'Bentham',serif;margin-bottom:20px;">"A amizade é a coisa mais rara..."</div><div style="font-size:15px;color:#aaa;">Obrigado por jogar. De verdade.</div><div style="font-size:12px;color:#666;margin-top:30px;">© 2026 Matheus — Todos os créditos merecidos.</div></div></div><button id="skipCreditsBtn" style="position:absolute;bottom:30px;right:30px;z-index:20;background:transparent;border:1px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.6);padding:8px 18px;border-radius:20px;cursor:pointer;font-family:'Work Sans',sans-serif;font-size:12px;">Próxima ▸</button></div>
 
-<div class="hero2 hero3">
-  <h1 class="t-g">Ganhos</h1>
-  <div class="conteiner-flex">
-    <div class="conteiner">R$ 0</div>
-    <div class="conteiner">R$ 22</div>
-  </div>
-  <div class="qnd-flex">
-    <div class="qnd qnd1">Atualmente</div>
-    <div class="qnd qnd2">Última vez</div>
-  </div>
-</div>
+<div id="utTrueEnding" style="display:none;position:fixed;top:100%;left:0;width:100%;height:100%;background:#fff;z-index:100001;transition:top 3s ease-in-out;overflow-y:auto;text-align:center;font-family:'Bentham',serif;color:#222;"><div style="max-width:600px;margin:0 auto;padding:60px 30px;"><pre style="font-size:14px;line-height:1.2;color:#ff6b81;margin-bottom:30px;font-family:'Courier New',monospace;"> ╔══════════════════╗
+ ║  ★ VERDADEIRO  ║
+ ║    FINAL  ★    ║
+ ╚══════════════════╝</pre><h2 id="utEndingTitle" style="font-family:'Bodoni Moda',serif;font-size:clamp(24px,5vw,36px);margin-bottom:25px;"></h2><div id="utEndingMessage" style="font-size:16px;line-height:2.2;color:#444;"></div></div></div>
 
-<div class="creditos">
-  <h1 class="title t1">Agradecimentos <span class="material-symbols-rounded heart">favorite</span></h1>
-  <div class="blockcopy">
-    <div class="linha"></div>
-    <div class="linha">
-      <h1 class="t" data-emoji="👑">MICHELE</h1>
-      <h1 class="t o" data-emoji="♥️">MICHELE</h1>
-      <h1 class="t" data-emoji="+1 Ano de contrato">MICHELE</h1>
-      <h1 class="t o" data-emoji="🫪">MICHELE</h1>
-      <h1 class="t" data-emoji="-1 Anos até engravidar (parabéns, qual Será o nome)">MICHELE</h1>
-      <h1 class="t o" data-emoji="✨">MICHELE</h1>
-    </div>
-    <div class="linha reverse">
-      <h1 class="t" data-emoji="🧑‍💻">NICKGAMER</h1>
-      <h1 class="t o" data-emoji="🧠">NICKGAMER</h1>
-      <h1 class="t" data-emoji="🫥">NICKGAMER</h1>
-      <h1 class="t o" data-emoji="🫂">NICKGAMER</h1>
-      <h1 class="t" data-emoji="👀">NICKGAMER</h1>
-      <h1 class="t o" data-emoji="💲">NICKGAMER</h1>
-    </div>
-    <div class="linha">
-      <h1 class="t" data-emoji="😂">BRAYAN</h1>
-      <h1 class="t o" data-emoji="💅">BRAYAN</h1>
-      <h1 class="t" data-emoji="🤌">BRAYAN</h1>
-      <h1 class="t o" data-emoji="🤝">BRAYAN</h1>
-      <h1 class="t" data-emoji="Sumido">BRAYAN</h1>
-      <h1 class="t o" data-emoji="To cupado mn (n fala comigo faz meses)">BRAYAN</h1>
-      <div class="linha"></div>
-    </div>
-    <div class="linha reverse">
-      <h1 class="t" data-emoji="n deveria tá aq mas ta kkk">YIN ツ</h1>
-      <h1 class="t o" data-emoji="🐂">YIN ツ</h1>
-      <h1 class="t" data-emoji="😡">YIN ツ</h1>
-      <h1 class="t o" data-emoji="🤬">YIN ツ</h1>
-      <h1 class="t" data-emoji="me troco por mulhe">YIN ツ</h1>
-      <h1 class="t o" data-emoji="fdp">YIN ツ</h1>
-    </div>
-    <div class="linha">
-      <h1 class="t" data-emoji="🧠💪">JHOW</h1>
-      <h1 class="t o" data-emoji="🧠💪">JHOW</h1>
-      <h1 class="t" data-emoji="🧠💪">JHOW</h1>
-      <h1 class="t o" data-emoji="🧠💪">JHOW</h1>
-      <h1 class="t" data-emoji="🧠💪">JHOW</h1>
-      <h1 class="t o" data-emoji="🧠💪">JHOW</h1>
-    </div>
-  </div>
-  <p class="end">
-    "É com uma enorme gratidão que eu demonstro o meu orgulho através desses nomes magníficos, que estiveram do meu lado durante todo esse tempo ♥️". — Matheus 8/05/26
-  </p>
-</div>
+<audio id="hopeAudio" src="hope.m4a" preload="auto"></audio>
+<audio id="battleAudio" src="terror.m4a" preload="auto" loop></audio>
 
-<!-- FORMULÁRIO DE PEDIDO -->
-<div id="formPedido" class="form-pedido">
-  <div class="form-container">
-    <h3>📦 Fazer um pedido</h3>
-    
-    <div class="form-group">
-      <label>💰 Escolha o valor</label>
-      <div class="valores-grid">
-        <div class="valor-btn" data-valor="0">R$ 0</div>
-        <div class="valor-btn" data-valor="2">R$ 2</div>
-        <div class="valor-btn" data-valor="5">R$ 5</div>
-        <div class="valor-btn" data-valor="10">R$ 10</div>
-        <div class="valor-btn" data-valor="25">R$ 25</div>
-      </div>
-    </div>
-    
-    <div id="tempoEntrega" class="tempo-entrega" style="display:none;"></div>
-    
-    <div class="form-group">
-      <label>👤 Seu nome</label>
-      <input type="text" id="clienteNome" placeholder="Digite seu nome">
-    </div>
-    
-    <div class="form-group">
-      <label>✏️ Descreva o que você quer criar</label>
-      <textarea id="clientePedido" placeholder="Ex: quero um logo para minha empresa, uma música de 30 segundos, um design de site..."></textarea>
-    </div>
-    
-    <button id="enviarPedido" class="btn-enviar">📨 Enviar pedido</button>
-    <button id="fecharPedido" class="btn-fechar">Fechar</button>
-  </div>
-</div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+  const firebaseConfig = { apiKey: "AIzaSyAc4cPfREg9A_kVX4BBMG4ENsrnNRXQ0Mw", authDomain: "matthewhome-b7283.firebaseapp.com", databaseURL: "https://matthewhome-b7283-default-rtdb.firebaseio.com", projectId: "matthewhome-b7283", storageBucket: "matthewhome-b7283.firebasestorage.app", messagingSenderId: "567228696588", appId: "1:567228696588:web:1740c548584a8adac10629" };
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const SFX = { ctx: null, init() { this.ctx = new (window.AudioContext || window.webkitAudioContext)(); }, play(freq, type = 'square', duration = 0.1, vol = 0.15) { if (!this.ctx) this.init(); const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain(); osc.type = type; osc.frequency.value = freq; gain.gain.value = vol; gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration); osc.connect(gain); gain.connect(this.ctx.destination); osc.start(); osc.stop(this.ctx.currentTime + duration); }, hit() { this.play(80, 'sawtooth', 0.15, 0.2); this.play(40, 'square', 0.2, 0.3); }, dodge() { this.play(600, 'square', 0.08, 0.1); setTimeout(() => this.play(800, 'square', 0.08, 0.1), 50); }, death() { this.play(200, 'sawtooth', 0.3, 0.15); setTimeout(() => this.play(150, 'sawtooth', 0.3, 0.15), 150); setTimeout(() => this.play(100, 'sawtooth', 0.3, 0.2), 300); }, victory() { this.play(523, 'square', 0.15); setTimeout(() => this.play(659, 'square', 0.15), 100); setTimeout(() => this.play(784, 'square', 0.15), 200); setTimeout(() => this.play(1047, 'square', 0.3), 300); }, text() { this.play(1000, 'square', 0.03, 0.05); }, rage() { this.play(50, 'sawtooth', 0.4, 0.3); this.play(30, 'square', 0.5, 0.4); }, heart() { this.play(440, 'triangle', 0.1, 0.08); setTimeout(() => this.play(554, 'triangle', 0.1, 0.08), 80); } };
+  const modalContrato = document.getElementById("modalContrato"), inputContratoNome = document.getElementById("inputContratoNome");
+  document.getElementById("btnAtualizarContrato").addEventListener("click", () => { modalContrato.style.display = "flex"; inputContratoNome.value = ""; inputContratoNome.focus(); });
+  document.getElementById("btnCancelarContrato").addEventListener("click", () => { modalContrato.style.display = "none"; });
+  document.getElementById("btnSalvarContrato").addEventListener("click", async () => { const nome = inputContratoNome.value.trim(); if (!nome) { alert("Digite um nome."); return; } const n = nome.toUpperCase(); if (!["MICHELE","NICKGAMER","BRAYAN","YIN","JHOW"].includes(n)) { alert("Nome inválido."); return; } try { await set(ref(db, `conquistas/${n}/contrato`), true); alert("✅ Contrato de " + n + " atualizado!"); modalContrato.style.display = "none"; missionPlayer = n; await loadMissionData(); updateMissionPanel(); document.getElementById("btnToggleMissoes").style.display = "block"; } catch(e) { alert("❌ Erro: " + e.message); } });
+  modalContrato.addEventListener("click", (e) => { if (e.target === modalContrato) modalContrato.style.display = "none"; });
+  const ALL_NAMES = ["MICHELE","NICKGAMER","BRAYAN","YIN","JHOW"], SECRET_MESSAGES = ["💌 'Mesmo nos piores dias, Matheus lembra de você.'","🌟 'Você é parte dessa história.'","🫂 'Brigas passam, amizade fica.'","💪 'Obrigado por estar aqui.'"];
+  let missionPlayer = null, heartCount = 0, clickedSet = [], dragCount = 0;
+  const missaoPanel = document.getElementById("missaoPanel"), btnToggle = document.getElementById("btnToggleMissoes"), secretMsg = document.getElementById("secretMsg");
+  btnToggle.addEventListener("click", () => { missaoPanel.style.display = missaoPanel.style.display === "block" ? "none" : "block"; });
+  function updateMissionPanel() { if (!missionPlayer) return; missaoPanel.style.display = "block"; document.getElementById("missaoPlayerNome").textContent = missionPlayer; document.getElementById("missContrato").innerHTML = `🤝 Contrato: <span style="color:#4caf50;">Ativo</span>`; document.getElementById("missCoracao").innerHTML = `❤️ Coração (${heartCount}/10): <span style="color:${heartCount>=10?'#4caf50':'#ff6b81'};">${heartCount>=10?'✅':'Pendente'}</span>`; document.getElementById("missCliques").innerHTML = `👆 Cliques (${clickedSet.length}/5): <span style="color:${clickedSet.length>=5?'#4caf50':'#ff6b81'};">${clickedSet.length>=5?'✅':'Pendente'}</span>`; document.getElementById("missArrastos").innerHTML = `📜 Mensagens (${dragCount}/4): <span style="color:${dragCount>=4?'#4caf50':'#ff6b81'};">${dragCount>=4?'✅':'Pendente'}</span>`; if (missionPlayer === "MICHELE") { const hoje = new Date(), niver = new Date("2026-07-03"), diffDays = Math.ceil((niver - hoje) / (1000 * 60 * 60 * 24)); const oldContador = document.getElementById("micheleContador"); if (oldContador) oldContador.remove(); const creditosSection = document.querySelector(".creditos .blockcopy"), contadorDiv = document.createElement("div"); contadorDiv.id = "micheleContador"; contadorDiv.style.cssText = "text-align:center;margin:20px auto 10px;padding:18px 25px;background:rgba(255,107,129,0.08);border:1px solid rgba(255,107,129,0.4);border-radius:16px;max-width:380px;font-family:'Bentham',serif;animation:contadorPulse 2s ease-in-out infinite;"; contadorDiv.innerHTML = `<div style="font-size:15px;color:#ff6b81;margin-bottom:8px;">👑 Ó, não esqueça...</div><div style="font-size:42px;font-weight:700;color:#fff;text-shadow:0 0 20px rgba(255,107,129,0.5);line-height:1;">${diffDays}</div><div style="font-size:14px;color:#ff6b81;margin-top:5px;">dias pro nosso niver 💖</div><div style="font-size:11px;color:#888;margin-top:8px;">03 de julho de 2026</div>`; creditosSection.parentNode.insertBefore(contadorDiv, creditosSection); } if (heartCount >= 10 && clickedSet.length >= 5 && dragCount >= 4) { mostrarToast("🌟 Todas as missões completas!"); setTimeout(() => startUTGame(missionPlayer), 1500); } }
+  async function loadMissionData() { if (!missionPlayer) return; try { const snap = await get(ref(db, `conquistas/${missionPlayer}`)); if (snap.exists()) { const d = snap.val(); if (typeof d.coracao === "number") heartCount = d.coracao; if (Array.isArray(d.clicks)) { clickedSet = d.clicks; document.querySelectorAll(".clickable-name").forEach(el => { if (clickedSet.includes(el.getAttribute("data-nome"))) el.classList.add("clicked"); }); } if (typeof d.arrastos === "number") dragCount = d.arrastos; } } catch(e) {} }
+  async function saveMission(field, value) { if (!missionPlayer) return; try { await set(ref(db, `conquistas/${missionPlayer}/${field}`), value); } catch(e) {} }
+  document.getElementById("heartMission").addEventListener("click", async () => { if (!missionPlayer) { alert("Atualize um contrato primeiro!"); return; } heartCount++; if (heartCount > 10) heartCount = 10; updateMissionPanel(); await saveMission("coracao", heartCount); });
+  document.querySelectorAll(".clickable-name").forEach(el => { el.addEventListener("click", async function(e) { e.stopPropagation(); if (!missionPlayer) { alert("Atualize um contrato primeiro!"); return; } const nome = this.getAttribute("data-nome"); if (nome && !clickedSet.includes(nome)) { clickedSet.push(nome); this.classList.add("clicked"); updateMissionPanel(); await saveMission("clicks", clickedSet); } }); });
+  document.querySelectorAll(".clickable-name").forEach(el => { el.setAttribute("draggable", "true"); el.addEventListener("dragstart", function(e) { if (!missionPlayer) { e.preventDefault(); return; } e.dataTransfer.setData("text", this.getAttribute("data-nome") || ""); }); el.addEventListener("dragend", async function() { if (!missionPlayer) return; dragCount++; if (dragCount > 4) dragCount = 4; secretMsg.textContent = SECRET_MESSAGES[(dragCount - 1) % 4]; secretMsg.style.display = "block"; secretMsg.style.animation = "none"; secretMsg.offsetHeight; secretMsg.style.animation = "fadeMsg 3s forwards"; setTimeout(() => { secretMsg.style.display = "none"; }, 3000); updateMissionPanel(); await saveMission("arrastos", dragCount); }); });
+  function mostrarToast(mensagem) { const toast = document.createElement('div'); toast.className = 'toast-mensagem'; toast.style.borderLeftColor = '#4caf50'; toast.innerHTML = mensagem; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
 
-<script>
-  // ⚠️ SUBSTITUA PELO SEU EMAIL ⚠️
-  const SEU_EMAIL = "seuemail@provedor.com";
-  
-  const precos = {
-    0: { tempo: "2 dias", obs: "", piscadas: 1 },
-    2: { tempo: "1 dia", obs: "", piscadas: 2 },
-    5: { tempo: "6 horas", obs: "", piscadas: 3 },
-    10: { tempo: "3 horas", obs: "", piscadas: 5 },
-    25: { tempo: "3 dias", obs: "infelizmente gastei apenas 3 dias nesse próprio site, então vai ser isso", piscadas: 10 }
-  };
-  
-  let valorSelecionado = null;
-  
-  function mostrarToast(mensagem, sucesso = true) {
-    const toast = document.createElement('div');
-    toast.className = 'toast-mensagem';
-    toast.style.borderLeftColor = sucesso ? '#4caf50' : '#ff6b6b';
-    toast.innerHTML = mensagem;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-  }
-  
-  function fazerPiscadinha(intensidade) {
-    let piscadasRestantes = intensidade;
-    function piscar() {
-      if (piscadasRestantes <= 0) return;
-      document.body.style.transition = 'background 0.05s';
-      document.body.style.background = '#fff';
-      setTimeout(() => { document.body.style.background = ''; }, 50);
-      piscadasRestantes--;
-      setTimeout(piscar, 120);
-    }
-    piscar();
-  }
-  
-  function mostrarContadorNosCreditos(valor) {
-    document.querySelectorAll('.contador-flutuante').forEach(el => el.remove());
-    let contagem = valor === 0 ? 1 : valor === 2 ? 3 : valor === 5 ? 6 : valor === 10 ? 12 : 25;
-    const nomes = document.querySelectorAll('.creditos .t');
-    nomes.forEach((nome, index) => {
-      setTimeout(() => {
-        const rect = nome.getBoundingClientRect();
-        const contador = document.createElement('div');
-        contador.className = 'contador-flutuante';
-        contador.textContent = `+${contagem}`;
-        contador.style.position = 'fixed';
-        contador.style.left = rect.left + 'px';
-        contador.style.top = (rect.top - 30) + 'px';
-        contador.style.fontSize = '1.2rem';
-        contador.style.color = '#ff6b6b';
-        contador.style.fontWeight = 'bold';
-        contador.style.pointerEvents = 'none';
-        contador.style.zIndex = '9999';
-        contador.style.opacity = '1';
-        contador.style.transition = 'all 1s ease-out';
-        document.body.appendChild(contador);
-        setTimeout(() => { contador.style.transform = 'translateY(-40px)'; contador.style.opacity = '0'; }, 10);
-        setTimeout(() => contador.remove(), 1000);
-      }, index * 50);
-    });
-  }
-  
-  const formModal = document.getElementById('formPedido');
-  
-  function abrirFormulario() { formModal.classList.add('active'); }
-  function fecharFormulario() {
-    formModal.classList.remove('active');
-    valorSelecionado = null;
-    document.querySelectorAll('.valor-btn').forEach(btn => btn.classList.remove('selected'));
-    document.getElementById('tempoEntrega').style.display = 'none';
-    document.getElementById('clienteNome').value = '';
-    document.getElementById('clientePedido').value = '';
-  }
-  
-  document.getElementById('fecharPedido').addEventListener('click', fecharFormulario);
-  
-  document.querySelectorAll('.valor-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.valor-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      valorSelecionado = parseInt(btn.getAttribute('data-valor'));
-      const info = precos[valorSelecionado];
-      const tempoDiv = document.getElementById('tempoEntrega');
-      let msg = `⏱️ Tempo de entrega: ${info.tempo}`;
-      if (info.obs) msg += `<br><small>${info.obs}</small>`;
-      tempoDiv.innerHTML = msg;
-      tempoDiv.style.display = 'block';
-      mostrarContadorNosCreditos(valorSelecionado);
-      fazerPiscadinha(info.piscadas);
-    });
-  });
-  
-  document.getElementById('enviarPedido').addEventListener('click', () => {
-    const nome = document.getElementById('clienteNome').value.trim();
-    const pedido = document.getElementById('clientePedido').value.trim();
-    
-    if (valorSelecionado === null) { mostrarToast("❌ Escolha um valor primeiro.", false); return; }
-    if (nome === "") { mostrarToast("❌ Digite seu nome.", false); return; }
-    if (pedido === "") { mostrarToast("❌ Descreva o que você quer criar.", false); return; }
-    
-    const info = precos[valorSelecionado];
-    const assunto = `Pedido - R$ ${valorSelecionado} - ${nome}`;
-    const corpo = `Nome: ${nome}\nValor: R$ ${valorSelecionado}\nTempo estimado: ${info.tempo}\n\nPedido:\n${pedido}`;
-    
-    window.location.href = `mailto:${SEU_EMAIL}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
-    
-    mostrarToast("✅ Pedido enviado! Matheus vai responder no email.", true);
-    fecharFormulario();
-  });
-  
-  // ==================== EMOJIS FLUTUANTES ====================
-  function criarEmoji(emoji, x, y) {
-    const div = document.createElement('div');
-    div.textContent = emoji;
-    div.style.position = 'fixed';
-    div.style.left = (x - 15) + 'px';
-    div.style.top = (y - 20) + 'px';
-    div.style.fontSize = '1.8rem';
-    div.style.pointerEvents = 'none';
-    div.style.zIndex = '9999';
-    div.style.opacity = '1';
-    div.style.transition = 'all 0.8s ease-out';
-    document.body.appendChild(div);
-    setTimeout(() => { div.style.transform = 'translateY(-50px)'; div.style.opacity = '0'; }, 10);
-    setTimeout(() => div.remove(), 800);
-  }
-  
-  let ultimoTempo = 0;
-  document.querySelectorAll('.creditos .t').forEach(el => {
-    const emoji = el.getAttribute('data-emoji');
-    if (!emoji) return;
-    el.addEventListener('mousemove', (e) => {
-      const agora = Date.now();
-      if (agora - ultimoTempo > 50) { ultimoTempo = agora; criarEmoji(emoji, e.clientX, e.clientY); }
-    });
-    el.addEventListener('touchmove', (e) => {
-      e.preventDefault();
-      const agora = Date.now();
-      if (agora - ultimoTempo > 50) { ultimoTempo = agora; const touch = e.touches[0]; criarEmoji(emoji, touch.clientX, touch.clientY); }
-    });
-  });
+  // UT Game - Versão LIMPA (sem decorações inúteis)
+  const UT = { player:"", hp:20, maxHp:20, lives:5, soulX:50, soulY:60, immuneUntil:0, gameOver:false, enemyRage:0, tremorInterval:null, battleArea:null, currentMap:1, totalMaps:4, wavesPerMap:3 };
+  const MAPS = { 1:{name:"🌑 O Silêncio",bg:"#050510",boneCount:5,speed:"4s",blaster:false,laser:false,enemyEmoji:"💔"}, 2:{name:"🌊 A Tempestade",bg:"#0a0a2a",boneCount:8,speed:"3s",blaster:false,laser:true,enemyEmoji:"😤"}, 3:{name:"🔥 A Raiva",bg:"#1a0a0a",boneCount:10,speed:"2.5s",blaster:true,laser:true,enemyEmoji:"👾"}, 4:{name:"💀 O Confronto Final",bg:"#0a0000",boneCount:14,speed:"2s",blaster:true,laser:true,enemyEmoji:"💀"} };
+  function updateBattleMusicIntensity() { const audio = document.getElementById("battleAudio"); if (!audio) return; let intensity = UT.enemyRage / 100; audio.playbackRate = 0.8 + intensity * 0.6; audio.volume = 0.3 + intensity * 0.4; }
+  async function epicTitle(title) { const d = document.createElement("div"); d.style.cssText = "position:fixed;inset:0;background:black;z-index:100002;display:flex;align-items:center;justify-content:center;color:#ff6b81;font-size:clamp(24px,6vw,48px);font-family:'Bodoni Moda',serif;text-align:center;flex-direction:column;"; d.innerHTML = `<div>${title}</div><div style="font-size:12px;margin-top:20px;color:#888;">⚔️ A batalha começa ⚔️</div>`; document.body.appendChild(d); await new Promise(r => setTimeout(r, 2000)); d.remove(); }
+  async function playGameIntro() { return new Promise((resolve) => { const introAudio = new Audio('Broken_Hearts.m4a'); introAudio.volume = 0.6; introAudio.play(); const introDiv = document.createElement('div'); introDiv.style.cssText = `position:fixed; top:0; left:0; width:100%; height:100%; background:black; z-index:100001; display:flex; justify-content:center; align-items:center; flex-direction:column; color:white; font-family:'Courier New',monospace;`; introDiv.innerHTML = `<div style="font-size:clamp(18px,5vw,28px); margin-bottom:30px; color:#ff6b81;">🎵 Broken Heart's 🎵</div><div style="font-size:14px; color:#aaa;">Vicmont observa...</div>`; document.body.appendChild(introDiv); introAudio.onended = () => { introDiv.remove(); resolve(); }; setTimeout(() => { if (document.body.contains(introDiv)) { introDiv.remove(); resolve(); } }, 5000); }); }
+  async function startUTGame(playerName) { SFX.init(); UT.player=playerName; UT.hp=20; UT.maxHp=20; UT.lives=5; UT.soulX=50; UT.soulY=60; UT.gameOver=false; UT.enemyRage=0; UT.currentMap=1; UT.battleArea=document.getElementById("utBattleArea"); document.getElementById("utGame").style.display="block"; updateUTHUD(); startSoulTremor(); await playGameIntro(); await epicTitle(MAPS[1].name); showMapIntro(1); try { const ba = document.getElementById("battleAudio"); ba.loop = true; ba.volume = 0.5; ba.playbackRate = 1; ba.play(); } catch(e) {} }
+  function updateUTHUD() { document.getElementById("utHP").textContent = UT.hp; document.getElementById("utMapName").textContent = MAPS[UT.currentMap].name; const livesCount = Math.max(0, UT.lives); const deadCount = Math.max(0, 5 - livesCount); let livesHTML = ""; for (let i = 0; i < deadCount; i++) livesHTML += '<img src="heart.png" style="width:16px;height:16px;image-rendering:pixelated;opacity:0.4;filter:grayscale(100%);">'; for (let i = 0; i < livesCount; i++) livesHTML += '<img src="heart.png" style="width:16px;height:16px;image-rendering:pixelated;">'; document.getElementById("utLives").innerHTML = livesHTML; document.getElementById("utBattleArea").style.background = MAPS[UT.currentMap].bg; }
+  function startSoulTremor() { if(UT.tremorInterval)clearInterval(UT.tremorInterval); UT.tremorInterval=setInterval(()=>{ if(document.getElementById("utGame").style.display!=="block")return; document.getElementById("utSoul").style.left=(UT.soulX+(Math.random()-0.5)*2)+"%"; document.getElementById("utSoul").style.top=(UT.soulY+(Math.random()-0.5)*2)+"%"; },50); }
+  function flashBorder(i=1){ const b=document.getElementById("utBorderFlash"),c=["#f00","#f33","#f66","#f99","#fcc"]; let n=0; const f=setInterval(()=>{b.style.border=`${2+i}px solid ${c[n%5]}`;n++;if(n>10){clearInterval(f);b.style.border="0px solid transparent";}},60); }
+  function shakeScreen(){ const s=document.getElementById("utShake"); s.style.animation="none";s.offsetHeight;s.style.animation="utScreenShake 0.4s ease";setTimeout(()=>s.style.animation="",400); }
+  function spawnParticles(x,y,c=8){ const o=document.getElementById("utParticles"); for(let i=0;i<c;i++){ const p=document.createElement("div"); p.style.cssText=`position:absolute;left:${x}%;top:${y}%;width:4px;height:4px;background:#f44;border-radius:50%;animation:utParticleFly 0.6s ease-out forwards;--px:${(Math.random()-0.5)*80}px;--py:${(Math.random()-0.5)*80}px;`; o.appendChild(p);setTimeout(()=>p.remove(),600); } }
+  function spawnSmoke(x, y, count = 3) { const area = UT.battleArea; for (let i = 0; i < count; i++) { setTimeout(() => { const smoke = document.createElement("div"); const size = 20 + Math.random() * 30; smoke.style.cssText = "position:absolute;left:" + (x + (Math.random() - 0.5) * 15) + "%;top:" + (y + (Math.random() - 0.5) * 10) + "%;width:" + size + "px;height:" + size + "px;background:radial-gradient(circle,rgba(100,100,100,0.6),transparent);border-radius:50%;pointer-events:none;z-index:25;animation:smokeFloat " + (1 + Math.random()) + "s ease-out forwards;"; area.appendChild(smoke); setTimeout(() => smoke.remove(), 1500); }, i * 200); } }
+  function spawnExplosion(x,y){ const area=UT.battleArea; const exp=document.createElement("div"); exp.style.cssText=`position:absolute;left:${x}%;top:${y}%;width:40px;height:40px;transform:translate(-50%,-50%);pointer-events:none;z-index:26;animation:explosionBurst 0.5s ease-out forwards;`; exp.innerHTML='<img width="32" height="32" src="moon.png">'; area.appendChild(exp);setTimeout(()=>exp.remove(),500); }
+  function updateEnemyAppearance() { const e = document.getElementById("utBrokenSoul"); e.innerHTML = ""; if (UT.enemyRage > 70) { e.innerHTML = '<img src="vicmont.svg" style="width:80px;height:80px;filter:drop-shadow(0 0 20px red) drop-shadow(0 0 40px #f00);">'; spawnSmoke(50, 20, 3); } else if (UT.enemyRage > 40) { e.innerHTML = '<img src="vicmont.svg" style="width:70px;height:70px;filter:drop-shadow(0 0 12px orange) drop-shadow(0 0 25px #f80);">'; spawnSmoke(50, 20, 1); } else { e.innerHTML = '<img src="vicmont.svg" style="width:60px;height:60px;filter:drop-shadow(0 0 6px #f88);">'; } }
+  async function utDialog(text,choices=[]){ return new Promise(resolve=>{ const b=document.getElementById("utDialogText"),c=document.getElementById("utDialogChoices"),d=document.getElementById("utDialogContinue"); b.textContent="";c.innerHTML="";d.style.display="none"; let i=0; const t=setInterval(()=>{ if(i<text.length){b.textContent+=text[i];if(text[i]!==' '&&text[i]!=='\n')SFX.text();i++;} else{ clearInterval(t); if(choices.length===0){d.style.display="block"; const l=()=>{d.style.display="none";document.removeEventListener("click",l);resolve(0);}; document.addEventListener("click",l); }else{ choices.forEach((ch,idx)=>{ const div=document.createElement("div");div.className="utDialogChoice";div.textContent=`▶ ${ch}`;div.addEventListener("click",()=>{c.innerHTML="";SFX.heart();resolve(idx);});c.appendChild(div);}); } } },25); }); }
+  function setupSoulMovement(){ const a=document.getElementById("utBattleArea"); document.addEventListener("keydown",e=>{ if(document.getElementById("utGame").style.display!=="block")return; const s=6;let m=false; switch(e.key){case"ArrowUp":case"w":UT.soulY=Math.max(4,UT.soulY-s);m=true;break;case"ArrowDown":case"s":UT.soulY=Math.min(94,UT.soulY+s);m=true;break;case"ArrowLeft":case"a":UT.soulX=Math.max(4,UT.soulX-s);m=true;break;case"ArrowRight":case"d":UT.soulX=Math.min(94,UT.soulX+s);m=true;break;} if(m)SFX.dodge(); }); a.addEventListener("touchmove",e=>{ if(document.getElementById("utGame").style.display!=="block")return; e.preventDefault(); const r=a.getBoundingClientRect(); UT.soulX=Math.max(4,Math.min(94,((e.touches[0].clientX-r.left)/r.width)*100)); UT.soulY=Math.max(4,Math.min(94,((e.touches[0].clientY-r.top)/r.height)*100)); },{passive:false}); }
+  function spawnBones(c=8){ const a=UT.battleArea,w=a.clientWidth,h=a.clientHeight,map=MAPS[UT.currentMap]; for(let i=0;i<c;i++)setTimeout(()=>{ const b=document.createElement("div");b.className="utBone"; const dir=Math.floor(Math.random()*4); switch(dir){ case 0: b.style.setProperty("--startX","-60px");b.style.setProperty("--startY",(Math.random()*90)+"%");b.style.setProperty("--endX",(w+60)+"px");b.style.setProperty("--endY",(Math.random()*90)+"%");break; case 1: b.style.setProperty("--startX",(w+60)+"px");b.style.setProperty("--startY",(Math.random()*90)+"%");b.style.setProperty("--endX","-60px");b.style.setProperty("--endY",(Math.random()*90)+"%");break; case 2: b.style.setProperty("--startX",(Math.random()*90)+"%");b.style.setProperty("--startY","-10px");b.style.setProperty("--endX",(Math.random()*90)+"%");b.style.setProperty("--endY",(h+10)+"px");break; case 3: b.style.setProperty("--startX",(Math.random()*90)+"%");b.style.setProperty("--startY",(h+10)+"px");b.style.setProperty("--endX",(Math.random()*90)+"%");b.style.setProperty("--endY","-10px");break; } b.style.setProperty("--rot",(Math.random()*360)+"deg");b.style.setProperty("--dur",map.speed);a.appendChild(b);setTimeout(()=>b.remove(),parseInt(map.speed)*1000+200); },i*(UT.currentMap>=3?80:120)); }
+  function spawnBlaster(){ const a=UT.battleArea,b=document.createElement("div");b.className="utGasterBlaster"; b.style.left=Math.max(10,Math.min(80,UT.soulX+(Math.random()-0.5)*20))+"%"; b.style.top=Math.max(10,Math.min(75,UT.soulY+(Math.random()-0.5)*20))+"%"; b.innerHTML='<img src="vicmont.svg" style="width:38px;height:38px;">'; a.appendChild(b);SFX.rage();setTimeout(()=>b.remove(),700); }
+  function spawnLaser(){ const a=UT.battleArea; const laser=document.createElement("div");laser.className="utLaser"; laser.style.left="50%";laser.style.top="50%"; a.appendChild(laser);SFX.rage();setTimeout(()=>laser.remove(),3500); }
+  function checkCollision(){ if(Date.now()<UT.immuneUntil)return; const sr=document.getElementById("utSoul").getBoundingClientRect(); document.querySelectorAll(".utBone,.utGasterBlaster,.utLaser").forEach(a=>{ const ar=a.getBoundingClientRect(); if(!(sr.right-5<ar.left+5||sr.left+5>ar.right-5||sr.bottom-5<ar.top+5||sr.top+5>ar.bottom-5)){ UT.hp-=4;UT.immuneUntil=Date.now()+600;UT.enemyRage=Math.min(100,UT.enemyRage+8); updateUTHUD();SFX.hit();shakeScreen();flashBorder(Math.floor(UT.enemyRage/20)+1); spawnParticles(UT.soulX,UT.soulY,12);spawnExplosion(UT.soulX,UT.soulY);updateEnemyAppearance();updateBattleMusicIntensity(); if(UT.hp<=0)handleUTDeath(); } }); }
+  function handleUTDeath(){ UT.lives--;updateUTHUD();SFX.death(); if(UT.lives<=0){UT.gameOver=true;clearBattleArea(); try { const ba = document.getElementById("battleAudio"); ba.pause(); ba.currentTime = 0; } catch(e) {} utDialog("* O silêncio consome tudo...").then(()=>{document.getElementById("utGame").style.display="none";alert("💀 A amizade morreu...");});} else{UT.hp=UT.maxHp;UT.enemyRage=Math.max(0,UT.enemyRage-25);updateUTHUD();clearBattleArea();updateEnemyAppearance();utDialog(`* ${UT.player}...\n* Sua DETERMINAÇÃO renasce.\n* Restam ${UT.lives} chances.`).then(()=>startMapWave());} }
+  function clearBattleArea(){ document.querySelectorAll(".utBone,.utGasterBlaster,.utLaser").forEach(e=>e.remove()); }
+  async function showMapIntro(mapNum){ UT.currentMap=mapNum;UT.enemyRage=mapNum*25-20;updateUTHUD();document.getElementById("utBrokenSoul").style.display="block";updateEnemyAppearance(); await epicTitle(MAPS[mapNum].name); const intros={1:"* Backfield: O Silêncio\n* 'Faz tempo que não nos vemos...'",2:"* 🌊 MAPA 2: A Tempestade\n* 'Eu senti saudades, eu admito. e você? Seja sincera, provavelmente sentiu nada, né?'",3:"* 🔥 MAPA 3: A Raiva\n* 'Eu estive fora por esse tempo... mas provavelmente você sequer me deu a mínima. **Ele diz chorando mas com uma fúria visível**'",4:"* 💀 MAPA 4: O Confronto Final\n* 'MORRA!!!!!!!'"}; await utDialog(`* ${UT.player}...`);await utDialog(intros[mapNum]);await utDialog("* PREPARE-SE.",["⚔️ ENFRENTAR"]); startMapWave(); }
+  async function startMapWave(){ if(UT.gameOver)return;updateUTHUD();const map=MAPS[UT.currentMap]; for(let wave=0;wave<UT.wavesPerMap;wave++){ clearBattleArea();spawnBones(map.boneCount+wave*3);if(map.blaster&&wave>0)setTimeout(spawnBlaster,500);if(map.laser)spawnLaser();if(UT.currentMap>=3)flashBorder(1+Math.floor(UT.enemyRage/25)); const start=Date.now();const check=setInterval(()=>{checkCollision();if(Date.now()-start>3500||UT.hp<=0){clearInterval(check);clearBattleArea();}},30); await new Promise(r=>setTimeout(r,3700));if(UT.hp<=0||UT.gameOver)return; } if(UT.currentMap<UT.totalMaps){ const cutscenes=["* '...Você lembra quando a gente ria?'","* 'Por que ficou tão difícil?'","* 'Eu ainda acredito em você.'"]; await utDialog(cutscenes[UT.currentMap-1]||"* ...");UT.currentMap++;await showMapIntro(UT.currentMap); }else{triggerUTFinalChoice();} }
+  async function triggerUTFinalChoice(){ clearBattleArea();document.getElementById("utBrokenSoul").style.display="block";updateEnemyAppearance();await utDialog("* O ataque para.");await utDialog("* A alma de Matheus flutua... exausta."); const c=await utDialog("* O que você faz?",["💚 ABRAÇAR A ALMA","🔨 TERMINAR DE QUEBRAR"]); if(c===0)await triggerUTTrueEnding();else await triggerUTBadEnding(); }
+  async function triggerUTTrueEnding(){ try { const ba = document.getElementById("battleAudio"); ba.pause(); ba.currentTime = 0; } catch(e) {} SFX.victory();await utDialog("* Você estende as mãos...");await utDialog("* As rachaduras se fecham.");await utDialog("* 'Obrigado... por não desistir.'");await utDialog("* VOCÊ CONSEGUIU."); document.getElementById("utGame").style.display="none"; updateNiverCreditsMsg(); document.getElementById("cinematicCredits").style.display="block"; setTimeout(() => { document.getElementById("creditsScroll").style.animation = "none"; document.getElementById("creditsScroll").offsetHeight; document.getElementById("creditsScroll").style.animation = "creditsRoll 70s linear forwards"; }, 100); }
+  function updateNiverCreditsMsg(){ const hoje=new Date(),niver=new Date("2026-07-03"),diffDays=Math.ceil((niver-hoje)/(1000*60*60*24)); const el=document.getElementById("niverCreditsMsg"); if(el&&diffDays>0&&diffDays<=52){ el.innerHTML=`💖 Faltam ${diffDays} dias para o aniversário da amizade de Matheus & Michele! 💖`; } }
+  async function triggerUTBadEnding(){ try { const ba = document.getElementById("battleAudio"); ba.pause(); ba.currentTime = 0; } catch(e) {} await utDialog("* Você desfere o golpe...");await utDialog("* A alma se estilhaça.");document.getElementById("utGame").style.display="none";alert("💀 FINAL RUIM."); }
+  function generateCreditsStars(){ const c=document.getElementById("creditsStars"); for(let i=0;i<150;i++){ const s=document.createElement("div");s.className="credit-star";s.style.left=Math.random()*100+"%";s.style.top=Math.random()*100+"%";s.style.setProperty("--dur",(Math.random()*3+2)+"s");s.style.setProperty("--delay",(Math.random()*4)+"s");c.appendChild(s); } }
+  generateCreditsStars();
+  document.getElementById("skipCreditsBtn").addEventListener("click",()=>{ document.getElementById("cinematicCredits").style.display="none";showTrueEnding(); });
+  setTimeout(()=>{ if(document.getElementById("cinematicCredits").style.display==="block")showTrueEnding(); },72000);
+  function showTrueEnding(){ document.getElementById("utTrueEnding").style.display="block";document.getElementById("utEndingTitle").textContent=`Parabéns, ${UT.player}!`;document.getElementById("utEndingMessage").innerHTML=`<p>Você conseguiu deixar o Matheus feliz...</p><p>É emocionante para mim, estou tão orgulhoso de você.<br>Mesmo com tantas brigas, conflitos... cá estamos.</p><p>Passei 5 dias tentando fazer algo que valesse a pena.<br>Quase chorei, mas consegui.</p><p>Se não foi como esperava... sinto muito.<br>Eu só queria fazer algo especial pra vocês.</p><p><strong>💚 — Matheus, 12/05/2026</strong></p>`;setTimeout(()=>{document.getElementById("utTrueEnding").style.top="0";try{document.getElementById("hopeAudio").play();}catch(e){}},200); }
+  setupSoulMovement();
 </script>
-
 </body>
 </html>
